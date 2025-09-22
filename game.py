@@ -8,8 +8,8 @@ conn = mysql.connector.connect(
     host='localhost',
     port=3306,
     database='some_database_name',
-    user='some_user_name',
-    password='some_password',
+    user='root',
+    password='LIppusiima404',
     autocommit=True
 )
 
