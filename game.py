@@ -229,7 +229,7 @@ while not game_over:
         game_over = True
 
 
-# if game is over loop stops
+# if game is over loop stop
 # show game result
 print(f'''{'You won!' if win else 'You lost!'}''')
 print(f'''You have {money:.0f}$''')
