@@ -135,7 +135,7 @@ def main(balance):
             print("You're out of money! Game over.")
             break
         again = input("\nPlay again? [Y/N] ").strip().lower()
-        if again != ['y', 'Y']:
+        if again not in ['y', 'Y']:
             print("Thanks for playing.")
             break
 
