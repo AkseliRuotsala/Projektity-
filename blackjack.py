@@ -1,6 +1,9 @@
 import random
 import time
 
+
+from official_projekti import player_money
+
 # Define card values
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
@@ -39,54 +42,104 @@ def display_hand(hand, owner, hide_first_card=False):
         print(f"Total value: {calculate_hand_value(hand)}")
 
 # Game logic
-def play_blackjack():
+def play_blackjack(balance):
     print("Welcome to Blackjack!\n")
+    print(f"Your current balance: ${balance}")
+# Asking bet
+    while True:
+        try:
+            bet = int(input("Enter your bet: $"))
+            if bet <= 0:
+                print("Bet more than zero.")
+            elif bet > balance:
+                print("You don't have enough money.")
+            else:
+                break
+        except ValueError:
+            print("Invalid input.")
 
     deck = create_deck()
     player_hand = [deck.pop(), deck.pop()]
     dealer_hand = [deck.pop(), deck.pop()]
 
     # Show initial hands
+    time.sleep(1)
     display_hand(dealer_hand, "Dealer", hide_first_card=True)
     display_hand(player_hand, "Player")
 
-    # Player's turn
-    while True:
-        if calculate_hand_value(player_hand) == 21:
-            print("Blackjack! Let's see what the dealer has...")
-            break
+    player_blackjack = calculate_hand_value(player_hand) == 21
 
+    # Player's turn
+    while not player_blackjack:
         choice = input("\nDo you want to [H]it or [S]tand? ").strip().lower()
-        if choice == 'h':
+        if choice in ['h', 'hit']:
+            print("You chose to hit...")
+            time.sleep(1)
             player_hand.append(deck.pop())
             display_hand(player_hand, "Player")
             if calculate_hand_value(player_hand) > 21:
                 print("You busted! Dealer wins.")
-                return
-        elif choice == 's':
+                return balance - bet
+        elif choice in ['s', 'stand']:
             break
         else:
-            print("Invalid choice. Please enter H or S.")
+            print("Invalid input.")
+
 
     # Dealer's turn
+    print("\nDealer reveals their hand:")
+    time.sleep(1)
     display_hand(dealer_hand, "Dealer")
     while calculate_hand_value(dealer_hand) < 17:
         print("Dealer hits...")
+        time.sleep(1)
         dealer_hand.append(deck.pop())
         display_hand(dealer_hand, "Dealer")
+        time.sleep(1)
 
     dealer_total = calculate_hand_value(dealer_hand)
     player_total = calculate_hand_value(player_hand)
 
     # Determine winner
-    if dealer_total > 21:
-        print("Dealer busts! You win!")
+    print("\nFinal Result:")
+    time.sleep(1)
+    if player_blackjack:
+        if dealer_total == 21 and len(dealer_hand) == 2:
+            print("Both you and the dealer have Blackjack! Its a tie.")
+            return balance
+        else:
+            winnings = int(bet * 1.5)
+            print("Blackjack! You win 2.5x your bet!")
+            return balance + winnings
+    elif player_total > 21:
+        print("You busted. You lose.")
+        return balance - bet
+    elif dealer_total > 21:
+        print("Dealer busted. You win.")
+        return balance + bet
     elif dealer_total > player_total:
-        print("Dealer wins!")
+        print("Dealer wins.")
+        return balance - bet
     elif dealer_total < player_total:
-        print("You win!")
+        print("You win.")
+        return balance + bet
     else:
-        print("It's a tie (push)!")
+        print("It's a tie.(push)")
+        return balance
+
+# Game loop
+def main():
+    balance = player_money
+    while balance > 0:
+        balance = play_blackjack(balance)
+        print(f"\nYour new balance is ${balance}")
+        if balance <= 0:
+            print("You're out of money! Game over.")
+            break
+        again = input("\nPlay again? [Y/N] ").strip().lower()
+        if again != ['y', 'Y']:
+            print("Thanks for playing.")
+            break
 
 # Run the game
 if __name__ == "__main__":
