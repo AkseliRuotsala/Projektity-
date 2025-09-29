@@ -1,4 +1,5 @@
 import random
+import time
 
 # Define card values
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
