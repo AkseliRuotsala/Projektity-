@@ -143,4 +143,3 @@ def play_game(goal_id, player_money):
     else:
         print("Unknown game/goal")
         return player_money
-
