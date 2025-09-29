@@ -93,8 +93,8 @@ def hand_rank(cards):
         return (2, counts_items[0][1]), "Pari"
     return (1,) + tuple(values), "Hai"
 
-def main():
-    saldo = 100  # aloitussaldo leikkirahaa
+def main(saldo):
+    print(f'sinulla on saldo {saldo}€')
     while True:
         print("\nSinulla on saldoa:", saldo)
         try:
@@ -145,4 +145,6 @@ def main():
             print("Ei voittoa tällä kertaa.")
 
 if __name__ == "__main__":
-    main()
+    saldo = 200
+    main(saldo)
+
