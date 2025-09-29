@@ -99,7 +99,7 @@ def travel_to_airport(current_airport, next_airport):
     return dist
 
 def robber_event(player_money):
-    stolen = player_money // 2   # always steals half
+    stolen = player_money // 2
     player_money -= stolen
     print(f"Oh no! You've been robber of {stolen} €. You now have {player_money} €.")
     return player_money
@@ -109,37 +109,26 @@ def set_stake(game_id, stake):
     cursor.execute("UPDATE goal SET money = %s WHERE id = %s", (stake, game_id))
     conn.commit()
 
-def start_poker_game(stake, player_money):
-    print("Starting Poker...")
-    player_money = poker.play(stake, player_money)
-    return player_money
-
-def start_blackjack_game(stake, player_money):
-    print("Starting Blackjack...")
-    player_money = blackjack.play(stake, player_money)
-    return player_money
-
-
 def play_game(goal_id, player_money):
     if goal_id == 1:  # Poker
-        stake = int(input("Enter your poker bet: "))
-        set_stake(1, stake)
-        print(f"You set a bet of {stake} €.")
-        player_money = poker.start_poker_game(stake, player_money)
+        player_money = poker.main(player_money)
         return player_money
 
     elif goal_id == 2:  # Blackjack
-        stake = int(input("Enter your blackjack stake: "))
-        set_stake(2, stake)
-        print(f"You set a blackjack stake of {stake} €.")
-        player_money = blackjack.start_blackjack_game(stake, player_money)
+        player_money = blackjack.play_blackjack(player_money)
         return player_money
 
-    elif goal_id == 3:  # Robber
+
+    elif goal_id == 3:
         player_money = robber_event(player_money)
-        set_stake(3, player_money)
         return player_money
 
-    else:
-        print("Unknown game/goal")
-        return player_money
+
+print(get_airports())
+
+all_airports = get_airports()
+# start_airport ident
+current_airport = all_airports[0]['ident']
+
+play_game(3, player_money)
+
