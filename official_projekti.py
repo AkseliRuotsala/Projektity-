@@ -9,9 +9,9 @@ import poker
 conn = mysql.connector.connect(
     host='localhost',
     port=3306,
-    database='demoboy',
-    user='demo',
-    password='peli',
+    database='some_database_name',
+    user='root',
+    password='LIppusiima404',
     autocommit=True
 )
 

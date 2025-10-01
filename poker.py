@@ -7,14 +7,14 @@ rank_values = {r: i for i, r in zip(range(2, 15), ranks)}
 
 # Kertoimet
 payouts = {
-    "Pari": 3,
-    "Kaksi paria": 4,
-    "Kolmoset": 5,
-    "Suora": 10,
-    "Väri": 12,
-    "Täyskäsi": 20,
-    "Neloset": 30,
-    "Värisuora": 50,
+    "One pair": 3,
+    "Two pair": 4,
+    "Three of a kind": 5,
+    "Straight": 10,
+    "Flush": 12,
+    "Full house": 20,
+    "Four of a kind": 30,
+    "Straight flush": 50,
 }
 
 def new_deck():
@@ -32,20 +32,20 @@ def pretty(hand):
     return s.strip()
 
 def choose_card(options):
-    print("Valitse kortti:")
+    print("Choose a card:")
     i = 1
     for c in options:
         print(str(i) + ": " + c[0] + c[1])
         i += 1
     while True:
         try:
-            val = int(input("Valinta (1 tai 2): "))
+            val = int(input("Options (1 or 2): "))
             if val == 1 or val == 2:
                 return options[val-1]
             else:
-                print("Anna 1 tai 2.")
+                print("Give 1 or 2.")
         except ValueError:
-            print("Anna numero 1 tai 2.")
+            print("Give number 1 or 2.")
 
 def hand_rank(cards):
     """Palauttaa (arvo, nimi)"""
@@ -76,37 +76,38 @@ def hand_rank(cards):
             top_val = 5
 
     if is_straight and is_flush:
-        return (9, top_val), "Värisuora"
+        return (9, top_val), "Straight flush"
     if counts_items[0][0] == 4:
-        return (8, counts_items[0][1]), "Neloset"
+        return (8, counts_items[0][1]), "Four of a kind"
     if counts_items[0][0] == 3 and counts_items[1][0] == 2:
-        return (7, counts_items[0][1]), "Täyskäsi"
+        return (7, counts_items[0][1]), "Full house"
     if is_flush:
-        return (6,) + tuple(values), "Väri"
+        return (6,) + tuple(values), "Flush"
     if is_straight:
-        return (5, top_val), "Suora"
+        return (5, top_val), "Straight"
     if counts_items[0][0] == 3:
-        return (4, counts_items[0][1]), "Kolmoset"
+        return (4, counts_items[0][1]), "Three of a kind"
     if counts_items[0][0] == 2 and counts_items[1][0] == 2:
-        return (3, counts_items[0][1], counts_items[1][1]), "Kaksi paria"
+        return (3, counts_items[0][1], counts_items[1][1]), "Two pair"
     if counts_items[0][0] == 2:
-        return (2, counts_items[0][1]), "Pari"
-    return (1,) + tuple(values), "Hai"
+        return (2, counts_items[0][1]), "One pair"
+    return (1,) + tuple(values), "High card"
 
 def main(saldo):
-    print(f'sinulla on saldo {saldo}€')
-    while True:
-        print("\nSinulla on saldoa:", saldo)
+    print(f'Your balance: {saldo}€')
+    kierros=0
+    while kierros<5:
+        print(f'Games played:{kierros}')
         try:
-            panos = int(input("Anna panos (0 lopettaa): "))
+            panos = int(input("Choose bet (0 end's the game): "))
             if panos == 0:
-                print("Peli päättyy. Kiitos!")
+                print("Game over. Thanks for playing!")
                 break
             if panos < 0 or panos > saldo:
-                print("Virheellinen panos.")
+                print("Incorrect input. Please try again.")
                 continue
         except ValueError:
-            print("Anna numero.")
+            print("Give a number.")
             continue
 
         deck = new_deck()
@@ -114,35 +115,37 @@ def main(saldo):
 
         # Aloitus 2 kortilla
         hand = [deck.pop(), deck.pop()]
-        print("Sinun aloituskätesi:", pretty(hand))
+        print("Your starting hand:", pretty(hand))
 
         # Nostetaan 2 uutta, valitse toinen
-        print("\nNostetaan 2 uutta korttia...")
+        print("\nTwo new cards are drawn...")
         options = [deck.pop(), deck.pop()]
         chosen = choose_card(options)
         hand.append(chosen)
-        print("Valitsit:", chosen[0]+chosen[1])
-        print("Kätesi nyt:", pretty(hand))
+        print("You chose:", chosen[0]+chosen[1])
+        print("Your hand now:", pretty(hand))
 
         # Lopuksi nostetaan 2 korttia automaattisesti
-        print("\nSaat vielä kaksi korttia automaattisesti...")
+        print("\nYou will get two more cards automatically...")
         hand.append(deck.pop())
         hand.append(deck.pop())
 
-        print("\n--- Lopullinen kätesi ---")
+        print("\n--- Your final hand ---")
         print(pretty(hand))
 
         # Arvostellaan käsi
         rank_tuple, name = hand_rank(hand)
-        print("Käden tyyppi:", name)
+        print("Hand's type:", name)
 
         if name in payouts:
             kerroin = payouts[name]
             voitto = panos * kerroin
             saldo += voitto
-            print("Voitit {} (kerroin {}x)!".format(voitto, kerroin))
+            print("You won {} (multiplier {}x)!".format(voitto, kerroin))
+            kierros +=1
         else:
-            print("Ei voittoa tällä kertaa.")
+            print("No win this time.")
+            kierros +=1
 
 if __name__ == "__main__":
     saldo = 200

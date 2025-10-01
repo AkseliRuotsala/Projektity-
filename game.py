@@ -153,7 +153,7 @@ start_airport = all_airports[0]['ident']
 current_airport = start_airport
 
 # game id
-game_id = create_game(money, player_range, start_airport, player, all_airports)
+game_id = create_game(money, start_airport, player, all_airports)
 
 # GAME LOOP
 while not game_over:
@@ -161,7 +161,7 @@ while not game_over:
     airport = get_airport_info(current_airport)
     # show game status
     print(f'''You are at {airport['name']}.''')
-    print(f'''You have {money:.0f}$ and {player_range:.0f}km of range.''')
+    print(f'''You have {money:.0f}$''')
     # pause
     input('\033[32mPress Enter to continue...\033[0m')
     # if airport has goal ask if player wants to open it
@@ -169,7 +169,7 @@ while not game_over:
     goal = check_goal(game_id, current_airport)
     if goal:
         question = input(
-            f'''Do you want to open lootbox for {"100$ or " if money > 100 else ""}{"50km range" if player_range > 50 else ""}? M = money, R = range, enter to skip: ''')
+            f'''Do you want to open lootbox for {"100$ or " if money > 100 else ""}{"50km range" if player_range > 50 else ""}? : ''')
         if not question == '':
             if question == 'M':
                 money -= 100
