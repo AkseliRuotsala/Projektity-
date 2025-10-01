@@ -95,7 +95,8 @@ def hand_rank(cards):
 
 def main(saldo):
     print(f'sinulla on saldo {saldo}€')
-    while True:
+    kierros=0
+    while kierros<5:
         print("\nSinulla on saldoa:", saldo)
         try:
             panos = int(input("Anna panos (0 lopettaa): "))
@@ -141,8 +142,10 @@ def main(saldo):
             voitto = panos * kerroin
             saldo += voitto
             print("Voitit {} (kerroin {}x)!".format(voitto, kerroin))
+            kierros +=1
         else:
             print("Ei voittoa tällä kertaa.")
+            kierros +=1
 
 if __name__ == "__main__":
     saldo = 200
