@@ -126,18 +126,32 @@ def play_blackjack(balance):
         print("It's a tie.(push)")
         return balance
 
-# Game loop
+# Game loop + Play time
 def main(balance):
-    while balance > 0:
+    plays = 0
+
+    while balance > 0 and plays < 5:
+        games_left = 4 - plays
+        print(f"\nGame {plays + 1} - {games_left} games left")
+
         balance = play_blackjack(balance)
+        plays += 1
+
         print(f"\nYour new balance is ${balance}")
+
         if balance <= 0:
             print("You're out of money! Game over.")
             break
-        again = input("\nPlay again? [Y/N] ").strip().lower()
-        if again not in ['y', 'Y']:
-            print("Thanks for playing.")
-            break
+
+        if plays < 5:
+            again = input("\nPlay again? [Y/N] ").strip().lower()
+            if again not in ['y', 'Y']:
+                print("Thanks for playing.")
+                break
+    else:
+        print("\nYou've reached the maximum number of games. Thanks for playing.")
+
+
 
 # Run the game
 if __name__ == "__main__":
