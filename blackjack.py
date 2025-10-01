@@ -2,7 +2,6 @@ import random
 import time
 
 
-from official_projekti import player_money
 
 # Define card values
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -128,8 +127,7 @@ def play_blackjack(balance):
         return balance
 
 # Game loop
-def main():
-    balance = player_money
+def main(balance):
     while balance > 0:
         balance = play_blackjack(balance)
         print(f"\nYour new balance is ${balance}")
@@ -137,10 +135,12 @@ def main():
             print("You're out of money! Game over.")
             break
         again = input("\nPlay again? [Y/N] ").strip().lower()
-        if again != ['y', 'Y']:
+        if again not in ['y', 'Y']:
             print("Thanks for playing.")
             break
 
 # Run the game
 if __name__ == "__main__":
-    play_blackjack()
+    balance = 1000
+    main(balance)
+

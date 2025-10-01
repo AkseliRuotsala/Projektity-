@@ -130,5 +130,5 @@ all_airports = get_airports()
 # start_airport ident
 current_airport = all_airports[0]['ident']
 
-play_game(3, player_money)
+play_game(2, player_money)
 
