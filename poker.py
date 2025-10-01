@@ -96,8 +96,9 @@ def hand_rank(cards):
 def main(saldo):
     print(f'Your balance: {saldo}€')
     kierros=0
-    while kierros<5:
-        print(f'Games played:{kierros}')
+    while kierros<5 and saldo>0:
+        games_left=4-kierros
+        print(f'Game {kierros+1}\nGames left: {games_left}')
         try:
             panos = int(input("Choose bet (0 end's the game): "))
             if panos == 0:
@@ -146,6 +147,10 @@ def main(saldo):
         else:
             print("No win this time.")
             kierros +=1
+    if saldo<1:
+        print("Game over. Your balance is 0. Thanks for playing!")
+    elif kierros==5 :
+        print("Game over. You have reached the maximum amount of games. Thanks for playing!")
 
 if __name__ == "__main__":
     saldo = 200
