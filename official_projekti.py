@@ -42,7 +42,7 @@ def create_game(start_money, cur_airport, p_name, a_ports):
     sql = "INSERT INTO game (money, location, screen_name) VALUES (%s, %s, %s);)"
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (start_money, cur_airport, p_name))
-    g_id = cursor.lastrowidf
+    g_id = cursor.lastrowid
 
     goals = get_goals()
     goal_list = []
@@ -89,10 +89,6 @@ def calculate_distance(current, target):
                              (end['latitude_deg'], end['longitude_deg'])).km
 
 
-# keep track of total distance traveled
-total_distance = 0
-player_money = 500
-
 def travel_to_airport(current_airport, next_airport):
     global total_distance, player_money
     # calculate distance between airports
@@ -125,6 +121,13 @@ def play_game(goal_id, player_money):
     elif goal_id == 3:
         player_money = robber_event(player_money)
         return player_money
+
+
+# keep track of total distance traveled
+total_distance = 0
+player_money = 500
+
+
 
 
 print(get_airports())
