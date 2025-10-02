@@ -16,11 +16,14 @@ conn = mysql.connector.connect(
 )
 
 def get_airports():
-    sql = """select iso_country, ident, name, latitude_deg, longitude_deg 
+    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
+FROM airport
+WHERE type='balloonport' 
+union select iso_country, ident, name, type, latitude_deg, longitude_deg
 from airport
-where type = 'balloonport'
-group by RAND()
-"""
+where name = "McCarran International Airport"
+ORDER by RAND();""" #McCarran on lähin lentokenttä vegasin stripin vieres
+
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
