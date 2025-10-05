@@ -113,6 +113,17 @@ def robber_event(player_money):
     print(f"Oh no! You've been robber of {stolen} €. You now have {player_money} €.")
     return player_money
 
+
+def vegas_airport():
+    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
+FROM airport
+where ident = 'KLAS';"""
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+
 #game starts
 storyDialog = input('Do you want to read the background story? (Y/N): ').upper()
 if storyDialog == 'Y':
@@ -164,8 +175,10 @@ while not game_over:
         selected_distance = calculate_distance(current_airport, dest)
         update_location(dest, money, game_id)
         current_airport = dest
+    # if destination airport is McCarran airport and desired goal is reached, game is won
+    if end_money_goal and current_airport == vegas_airport():
+        game_over = True
 
-
+print(f'''You have arrived at the Vegas strip with {money}€, go spend your money wisely''')
 print(f'''{'end text here' if win else 'looser text'}''')
-print(f'''you have {money:.0f}€''')
 
