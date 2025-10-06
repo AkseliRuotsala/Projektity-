@@ -148,7 +148,7 @@ def main(saldo):
         if kierros < 5 and saldo > 0:
             again = input("\nPlay again? [Y/N] ")
             if again not in ['y', 'Y']:
-                print("Thanks for playing.")
+                print(f"Thanks for playing. Your balance is: {saldo}$ ")
                 break
 
 
