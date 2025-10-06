@@ -94,16 +94,13 @@ def hand_rank(cards):
     return (1,) + tuple(values), "High card"
 
 def main(saldo):
-    print(f'Your balance: {saldo}€')
     kierros=0
     while kierros<5 and saldo>0:
         games_left=4-kierros
+        print(f'Your balance: {saldo}€')
         print(f'Game {kierros+1}\nGames left: {games_left}')
         try:
-            panos = int(input("Choose bet (0 end's the game): "))
-            if panos == 0:
-                print("Game over. Thanks for playing!")
-                break
+            panos = int(input("Choose bet: "))
             if panos < 0 or panos > saldo:
                 print("Incorrect input. Please try again.")
                 continue
@@ -143,6 +140,7 @@ def main(saldo):
             voitto = panos * kerroin
             saldo += voitto
             print("You won {} (multiplier {}x)!".format(voitto, kerroin))
+            print(saldo)
             kierros +=1
         else:
             print("No win this time.")
