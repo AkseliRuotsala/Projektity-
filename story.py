@@ -5,7 +5,7 @@ You have always dreamed of becoming rich, and finally you have found a way to ac
 
 Your journeys purpose is to reach Las Vegas, every gamblers dream, the Heaven on earth.
 
-With only 500 bucks in your pocket, you  heat to the nearest airport.
+With only 500 bucks in your pocket, you head to the nearest airport.
 
 Your strengths lie in just two games, blackjack and poker, and those are the only tables you’ll ever play. 
 
@@ -15,16 +15,15 @@ At each stop you can test your luck in up to five rounds before flying onward, b
 ...not every risk lies in the card…
 '''
 
-story2='''
-…Finally! You have reached your goal, Las Vegas! 
-
-With the 100 thousand dollars you could do anything here, buy a cool car, eat well, invest the money, or gamble more. 
-
-The choice is yours, only the sky is the limit at this point. '''
+story2= '''
+Finally! You have reached your goal, Las Vegas! 
+With the 100 thousand dollars you could do anything here, buy a cool car, eat well, invest the money, or gamble more.
+The choice is yours, only the sky is the limit at this point. 
+'''
 
 
 # Set column width to 80 characters
-wrapper = textwrap.TextWrapper(width=3000, break_long_words=False, replace_whitespace=False)
+wrapper = textwrap.TextWrapper(width=150, break_long_words=False, replace_whitespace=False)
 # Wrap text
 word_list = wrapper.wrap(text=story)
 
@@ -33,7 +32,7 @@ def getStory():
     return word_list
 
 # Set column width to 80 characters
-wrapper = textwrap.TextWrapper(width=3000, break_long_words=False, replace_whitespace=False)
+wrapper = textwrap.TextWrapper(width=150, break_long_words=False, replace_whitespace=False)
 # Wrap text
 word_list2 = wrapper.wrap(text=story2)
 
