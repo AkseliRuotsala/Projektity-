@@ -171,6 +171,8 @@ while not game_over:
         else:
             money = robber_event(money)
 
+    if money < 100:
+        break
     airports = airports_in_range(current_airport, all_airports)
     print(f'choose on of {len(airports)} airports:')
     if len(airports) > 0:
@@ -187,6 +189,6 @@ while not game_over:
     if end_money_goal and current_airport == end_airport:
         game_over = True
 
-print(f'''You have arrived at the Vegas strip with {money}$, go spend your money wisely''')
+
 print(f'''{'end text here' if win else 'looser text'}''')
 
