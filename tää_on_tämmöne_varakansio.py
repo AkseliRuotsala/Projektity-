@@ -137,7 +137,7 @@ if storyDialog == 'Y':
         print(line)
 
 
-print('When you are ready to start, ')
+print('\nWhen you are ready to start, ')
 player = input('type player name: ')
 # boolean for game over and win
 game_over = False
