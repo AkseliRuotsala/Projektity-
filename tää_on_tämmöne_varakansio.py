@@ -22,10 +22,20 @@ def get_airports():
     sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
 FROM airport
 WHERE type='balloonport'
-UNION SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
-FROM airport
-WHERE name = "McCarran International Airport"
 ORDER BY RAND();"""
+# UNION SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
+# FROM airport
+# WHERE name = "McCarran International Airport"
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+
+def vegas_airport():
+    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
+FROM airport
+where ident = 'KLAS';"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -52,13 +62,18 @@ def create_game(start_money, cur_airport, p_name, a_ports):
         for i in range(0, goal['probability'], 1):
             goal_list.append(goal['id'])
 
-    g_ports = a_ports[1:].copy()
+    g_ports = a_ports[0:].copy()
     random.shuffle(g_ports)
 
     for i, goal_id in enumerate(goal_list):
         sql = 'INSERT INTO ports (game, airport, goal) VALUES (%s, %s, %s);'
         cursor = conn.cursor(dictionary=True)
         cursor.execute(sql, (g_id, g_ports[i]['ident'], goal_id))
+
+    # lisätään pelin päätepysäkki
+    sql = 'INSERT INTO ports (game, airport, goal) VALUES (%s, %s, %s);'
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(sql, (g_id, 'KLAS', 0))
 
     return g_id
 
@@ -103,6 +118,8 @@ def airports_in_range(icao, a_ports):
 
 def update_location(icao, u_money, g_id):
     sql = f'''UPDATE game SET location = %s, money = %s WHERE id = %s'''
+    print(sql)
+    print(icao, u_money, g_id)
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (icao, u_money, g_id))
 
@@ -110,18 +127,9 @@ def update_location(icao, u_money, g_id):
 def robber_event(player_money):
     stolen = player_money // 2
     player_money -= stolen
-    print(f"Oh no! You've been robber of {stolen} €. You now have {player_money} €.")
+    print(f"Oh no! You've been robber of {stolen}$."
+          f" but luckily you stashed half of your money ({player_money}$) in your shoe.")
     return player_money
-
-
-def vegas_airport():
-    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
-FROM airport
-where ident = 'KLAS';"""
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
 
 
 #game starts
@@ -138,13 +146,15 @@ game_over = False
 win = False
 
 money = 500
-end_money_goal = 500000
-score = 0
+end_money_goal = 50000
 
 all_airports = get_airports()
 start_airport = all_airports[0]['ident']
+print(start_airport)
 
 current_airport = start_airport
+print(current_airport)
+end_airport = 'KLAS'
 
 game_id = create_game(money, start_airport, player, all_airports)
 
@@ -152,16 +162,17 @@ game_id = create_game(money, start_airport, player, all_airports)
 while not game_over:
     airport = get_airport_info(current_airport)
     print(f'''you are at {airport['name']},''')
-    print(f'''you have {money:.0f}€''')
+    print(f'''you have {money:.0f}$''')
 
     goal = check_goal(game_id, current_airport)
     if goal:
         if goal['goal_id'] == 1:
-            poker.main(money)
+            money = poker.main(money)
+            print(f'rahasi pelien jälkeen {money}$')
         elif goal['goal_id'] == 2:
-            blackjack.main(money)
+            money = blackjack.main(money)
         else:
-            robber_event(money)
+            money = robber_event(money)
 
     airports = airports_in_range(current_airport, all_airports)
     print(f'choose on of {len(airports)} airports:')
@@ -176,9 +187,9 @@ while not game_over:
         update_location(dest, money, game_id)
         current_airport = dest
     # if destination airport is McCarran airport and desired goal is reached, game is won
-    if end_money_goal and current_airport == vegas_airport():
+    if end_money_goal and current_airport == end_airport:
         game_over = True
 
-print(f'''You have arrived at the Vegas strip with {money}€, go spend your money wisely''')
+print(f'''You have arrived at the Vegas strip with {money}$, go spend your money wisely''')
 print(f'''{'end text here' if win else 'looser text'}''')
 

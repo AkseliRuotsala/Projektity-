@@ -150,7 +150,7 @@ def main(balance):
                 break
     else:
         print("\nYou've reached the maximum number of games. Thanks for playing.")
-
+    return balance
 
 
 # Run the game
