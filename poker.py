@@ -151,6 +151,7 @@ def main(saldo):
         print("Game over. Your balance is 0. Thanks for playing!")
     elif kierros==5 :
         print("Game over. You have reached the maximum amount of games. Thanks for playing!")
+    return saldo
 
 if __name__ == "__main__":
     saldo = 200
