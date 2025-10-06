@@ -164,10 +164,8 @@ while not game_over:
     if goal:
         if goal['goal_id'] == 1:
             money = poker.main(money)
-            print(f'rahasi pelien jälkeen {money}$')
         elif goal['goal_id'] == 2:
             money = blackjack.main(money)
-            print(f'rahasi pelien jälkeen {money}$')
         else:
             money = robber_event(money)
 
