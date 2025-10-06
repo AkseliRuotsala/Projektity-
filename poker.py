@@ -140,10 +140,12 @@ def main(saldo):
             kerroin = payouts[name]
             voitto = panos * kerroin
             saldo += voitto
-            print("You won {} (multiplier {}x)!".format(voitto, kerroin))
+            print("You won {} (multiplier {}x)! ".format(voitto, kerroin))
+            print(f'Your balance is: {saldo}$')
             kierros +=1
         else:
             print("No win this time.")
+            print(f'Your balance is: {saldo}$')
             kierros +=1
         if kierros < 5 and saldo > 0:
             again = input("\nPlay again? [Y/N] ")
