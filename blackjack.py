@@ -47,7 +47,7 @@ def play_blackjack(balance):
 # Asking bet
     while True:
         try:
-            bet = int(input("Enter your bet: $"))
+            bet = int(input("Enter your bet: "))
             if bet <= 0:
                 print("Bet more than zero.")
             elif bet > balance:
@@ -146,7 +146,7 @@ def main(balance):
         if plays < 5:
             again = input("\nPlay again? [Y/N] ").strip().lower()
             if again not in ['y', 'Y']:
-                print("Thanks for playing.")
+                print(f"Thanks for playing.Your balance is: {balance}$")
                 break
     else:
         print("\nYou've reached the maximum number of games. Thanks for playing.")
@@ -157,4 +157,3 @@ def main(balance):
 if __name__ == "__main__":
     balance = 1000
     main(balance)
-
