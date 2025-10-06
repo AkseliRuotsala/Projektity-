@@ -11,9 +11,9 @@ import mysql.connector
 conn = mysql.connector.connect(
     host="localhost",
     port=3306,
-    database="",
-    user="",
-    password="",
+    database="demoboy",
+    user="demo",
+    password="peli",
     autocommit=True
 )
 
@@ -118,8 +118,6 @@ def airports_in_range(icao, a_ports):
 
 def update_location(icao, u_money, g_id):
     sql = f'''UPDATE game SET location = %s, money = %s WHERE id = %s'''
-    print(sql)
-    print(icao, u_money, g_id)
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (icao, u_money, g_id))
 
@@ -150,7 +148,6 @@ end_money_goal = 50000
 
 all_airports = get_airports()
 start_airport = all_airports[0]['ident']
-print(start_airport)
 
 current_airport = start_airport
 print(current_airport)
@@ -162,7 +159,6 @@ game_id = create_game(money, start_airport, player, all_airports)
 while not game_over:
     airport = get_airport_info(current_airport)
     print(f'''you are at {airport['name']},''')
-    print(f'''you have {money:.0f}$''')
 
     goal = check_goal(game_id, current_airport)
     if goal:
@@ -171,6 +167,7 @@ while not game_over:
             print(f'rahasi pelien jälkeen {money}$')
         elif goal['goal_id'] == 2:
             money = blackjack.main(money)
+            print(f'rahasi pelien jälkeen {money}$')
         else:
             money = robber_event(money)
 

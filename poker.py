@@ -97,6 +97,7 @@ def main(saldo):
     kierros=0
     while kierros<5 and saldo>0:
         games_left=4-kierros
+        print(f'Welcome to poker!\n')
         print(f'Your balance: {saldo}€')
         print(f'Game {kierros+1}\nGames left: {games_left}')
         try:
