@@ -140,7 +140,6 @@ def main(saldo):
             voitto = panos * kerroin
             saldo += voitto
             print("You won {} (multiplier {}x)!".format(voitto, kerroin))
-            print(saldo)
             kierros +=1
         else:
             print("No win this time.")
