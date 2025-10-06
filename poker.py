@@ -1,5 +1,11 @@
 import random
 from collections import Counter
+import time
+
+
+def delayed_print(text, delay = 1):
+    print(text)
+    time.sleep(delay)
 
 suits = ['♠', '♥', '♦', '♣']
 ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -97,9 +103,9 @@ def main(saldo):
     kierros=0
     while kierros<5 and saldo>0:
         games_left=4-kierros
-        print(f'Welcome to poker!\n')
-        print(f'Your balance: {saldo}€')
-        print(f'Game {kierros+1}\nGames left: {games_left}')
+        delayed_print(f'Welcome to poker!\n', 1)
+        delayed_print(f'Your balance: {saldo}€', 1)
+        delayed_print(f'Game {kierros+1}\nGames left: {games_left}', 1)
         try:
             panos = int(input("Choose bet: "))
             if panos < 0 or panos > saldo:
@@ -114,50 +120,50 @@ def main(saldo):
 
         # Aloitus 2 kortilla
         hand = [deck.pop(), deck.pop()]
-        print("Your starting hand:", pretty(hand))
+        delayed_print("Your starting hand:" + pretty(hand), 1)
 
         # Nostetaan 2 uutta, valitse toinen
-        print("\nTwo new cards are drawn...")
+        delayed_print("\nTwo new cards are drawn...", 1)
         options = [deck.pop(), deck.pop()]
         chosen = choose_card(options)
         hand.append(chosen)
-        print("You chose:", chosen[0]+chosen[1])
-        print("Your hand now:", pretty(hand))
+        delayed_print("You chose:" + chosen[0]+chosen[1], 1)
+        delayed_print("Your hand now:" + pretty(hand), 1)
 
         # Lopuksi nostetaan 2 korttia automaattisesti
-        print("\nYou will get two more cards automatically...")
+        delayed_print("\nYou will get two more cards automatically...", 1)
         hand.append(deck.pop())
         hand.append(deck.pop())
 
-        print("\n--- Your final hand ---")
-        print(pretty(hand))
+        delayed_print("\n--- Your final hand ---", 1)
+        delayed_print(pretty(hand), 1)
 
         # Arvostellaan käsi
         rank_tuple, name = hand_rank(hand)
-        print("Hand's type:", name)
+        delayed_print("Hand's type:" + name, 1)
 
         if name in payouts:
             kerroin = payouts[name]
             voitto = panos * kerroin
             saldo += voitto
-            print("You won {} (multiplier {}x)! ".format(voitto, kerroin))
-            print(f'Your balance is: {saldo}$')
+            delayed_print("You won {} (multiplier {}x)! ".format(voitto, kerroin), 1)
+            delayed_print(f'Your balance is: {saldo}$', 1)
             kierros +=1
         else:
-            print("No win this time.")
-            print(f'Your balance is: {saldo}$')
+            delayed_print("No win this time.", 1)
+            delayed_print(f'Your balance is: {saldo}$', 1)
             kierros +=1
         if kierros < 5 and saldo > 0:
             again = input("\nPlay again? [Y/N] ")
             if again not in ['y', 'Y']:
-                print(f"Thanks for playing. Your balance is: {saldo}$ ")
+                delayed_print(f"Thanks for playing. Your balance is: {saldo}$ ", 1)
                 break
 
 
     if saldo<1:
-        print("Game over. Your balance is 0. Thanks for playing!")
+        delayed_print("Game over. Your balance is 0. Thanks for playing!", 1)
     elif kierros==5 :
-        print("Game over. You have reached the maximum amount of games. Thanks for playing!")
+        delayed_print("Game over. You have reached the maximum amount of games. Thanks for playing!", 1)
     return saldo
 
 if __name__ == "__main__":

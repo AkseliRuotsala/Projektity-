@@ -4,6 +4,8 @@ import story
 
 import blackjack
 import poker
+import time
+
 
 import mysql.connector
 
@@ -16,6 +18,12 @@ conn = mysql.connector.connect(
     password="peli",
     autocommit=True
 )
+
+
+def delayed_print(text, delay = 1.0):
+    print(text)
+    time.sleep(delay)
+
 
 
 def get_airports():
@@ -125,8 +133,8 @@ def update_location(icao, u_money, g_id):
 def robber_event(player_money):
     stolen = player_money // 2
     player_money -= stolen
-    print(f"Oh no! You've been robber of {stolen}$."
-          f" but luckily you stashed half of your money ({player_money}$) in your shoe.")
+    delayed_print(f"Oh no! You've been robber of {stolen}$."
+          f" but luckily you stashed half of your money ({player_money}$) in your shoe.", 2)
     return player_money
 
 
@@ -134,10 +142,10 @@ def robber_event(player_money):
 storyDialog = input('Do you want to read the background story? (Y/N): ').upper()
 if storyDialog == 'Y':
     for line in story.getStory():
-        print(line)
+        delayed_print(line, 1.5)
 
 
-print('\nWhen you are ready to start, ')
+delayed_print('\nWhen you are ready to start, ', 1)
 player = input('type player name: ')
 # boolean for game over and win
 game_over = False
@@ -158,7 +166,7 @@ game_id = create_game(money, start_airport, player, all_airports)
 
 while not game_over:
     airport = get_airport_info(current_airport)
-    print(f'''you are at {airport['name']},''')
+    delayed_print(f'''you are at {airport['name']},''', 1.5)
 
     goal = check_goal(game_id, current_airport)
     if goal:
@@ -172,12 +180,12 @@ while not game_over:
     if money < 100:
         break
     airports = airports_in_range(current_airport, all_airports)
-    print(f'choose on of {len(airports)} airports:')
+    delayed_print(f'choose one of {len(airports)} airports:', 1)
     if len(airports) > 0:
         print(f'''airports''')
         for airport in airports:
             ap_distance = calculate_distance(current_airport, airport['ident'])
-            print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''')
+            delayed_print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''', 1)
 
         dest = input('enter destination icao: ')
         selected_distance = calculate_distance(current_airport, dest)
