@@ -145,7 +145,7 @@ def main(saldo):
         else:
             print("No win this time.")
             kierros +=1
-        if kierros > 0:
+        if kierros < 5 and saldo > 0:
             again = input("\nPlay again? [Y/N] ")
             if again not in ['y', 'Y']:
                 print("Thanks for playing.")
