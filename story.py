@@ -15,6 +15,14 @@ At each stop you can test your luck in up to five rounds before flying onward, b
 ...not every risk lies in the card…
 '''
 
+story2='''
+…Finally! You have reached your goal, Las Vegas! 
+
+With the 100 thousand dollars you could do anything here, buy a cool car, eat well, invest the money, or gamble more. 
+
+The choice is yours, only the sky is the limit at this point. '''
+
+
 # Set column width to 80 characters
 wrapper = textwrap.TextWrapper(width=3000, break_long_words=False, replace_whitespace=False)
 # Wrap text
@@ -23,3 +31,12 @@ word_list = wrapper.wrap(text=story)
 
 def getStory():
     return word_list
+
+# Set column width to 80 characters
+wrapper = textwrap.TextWrapper(width=3000, break_long_words=False, replace_whitespace=False)
+# Wrap text
+word_list2 = wrapper.wrap(text=story2)
+
+
+def getStory2():
+    return word_list2
