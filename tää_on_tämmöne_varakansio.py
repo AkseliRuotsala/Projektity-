@@ -127,7 +127,8 @@ def update_location(icao, u_money, g_id):
 def robber_event(player_money):
     stolen = player_money // 2
     player_money -= stolen
-    print(f"Oh no! You've been robber of {stolen} €. You now have {player_money} €.")
+    print(f"Oh no! You've been robber of {stolen}$."
+          f" but luckily you stashed half of your money ({player_money}$) in your shoe.")
     return player_money
 
 
@@ -161,13 +162,13 @@ game_id = create_game(money, start_airport, player, all_airports)
 while not game_over:
     airport = get_airport_info(current_airport)
     print(f'''you are at {airport['name']},''')
-    print(f'''you have {money:.0f}€''')
+    print(f'''you have {money:.0f}$''')
 
     goal = check_goal(game_id, current_airport)
     if goal:
         if goal['goal_id'] == 1:
             money = poker.main(money)
-            print(f'rahasi pelien jälkeen {money}€')
+            print(f'rahasi pelien jälkeen {money}$')
         elif goal['goal_id'] == 2:
             money = blackjack.main(money)
         else:
@@ -189,6 +190,6 @@ while not game_over:
     if end_money_goal and current_airport == end_airport:
         game_over = True
 
-print(f'''You have arrived at the Vegas strip with {money}€, go spend your money wisely''')
+print(f'''You have arrived at the Vegas strip with {money}$, go spend your money wisely''')
 print(f'''{'end text here' if win else 'looser text'}''')
 
