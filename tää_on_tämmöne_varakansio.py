@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
 )
 
 
-def delayed_print(text, delay = 1.0):
+def delayed_print(text, delay = 0.5):
     print(text)
     time.sleep(delay)
 
@@ -152,7 +152,7 @@ game_over = False
 win = False
 
 money = 500
-end_money_goal = 50000
+end_money_goal = 100000
 
 all_airports = get_airports()
 start_airport = all_airports[0]['ident']
@@ -178,6 +178,8 @@ while not game_over:
             money = robber_event(money)
 
     if money < 100:
+        print("It seems that you don't have enough money to travel anymore😫 use the remainder of "
+              "our money\n to book a hotel room where you can sleep your sorrow away. Better luck next time")
         break
     airports = airports_in_range(current_airport, all_airports)
     delayed_print(f'choose one of {len(airports)} airports:', 1)
@@ -185,7 +187,7 @@ while not game_over:
         print(f'''airports''')
         for airport in airports:
             ap_distance = calculate_distance(current_airport, airport['ident'])
-            delayed_print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''', 1)
+            delayed_print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''', 0.5)
 
         dest = input('enter destination icao: ')
         selected_distance = calculate_distance(current_airport, dest)
@@ -194,7 +196,4 @@ while not game_over:
     # if destination airport is McCarran airport and desired goal is reached, game is won
     if end_money_goal and current_airport == end_airport:
         game_over = True
-
-
-print(f'''{'end text here' if win else 'looser text'}''')
-
+        print(story.getStory2())
