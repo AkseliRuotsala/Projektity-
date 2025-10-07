@@ -42,7 +42,6 @@ def display_hand(hand, owner, hide_first_card=False):
 
 # Game logic
 def play_blackjack(balance):
-    print("Welcome to Blackjack!\n")
     print(f"Your current balance: ${balance}")
 # Asking bet
     while True:
@@ -132,7 +131,7 @@ def main(balance):
 
     while balance > 0 and plays < 5:
         games_left = 4 - plays
-        print(f"\nGame {plays + 1} - {games_left} games left")
+        print(f"\nGame {plays + 1}/5")
 
         balance = play_blackjack(balance)
         plays += 1

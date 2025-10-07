@@ -103,9 +103,8 @@ def main(saldo):
     kierros=0
     while kierros<5 and saldo>0:
         games_left=4-kierros
-        delayed_print(f'Welcome to poker!\n', 1)
-        delayed_print(f'Your balance: {saldo}€', 1)
-        delayed_print(f'Game {kierros+1}\nGames left: {games_left}', 1)
+        print(f'Your balance: {saldo}€')
+        print(f'Game {kierros+1}/5')
         try:
             panos = int(input("Choose bet: "))
             if panos < 0 or panos > saldo:

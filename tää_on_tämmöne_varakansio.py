@@ -142,7 +142,7 @@ where ident = 'KLAS';"""
 storyDialog = input('Do you want to read the background story? (Y/N): ').upper()
 if storyDialog == 'Y':
     for line in story.getStory():
-        print(line, 1.5)
+        print(line)
 
 
 delayed_print('\nWhen you are ready to start, ', 1)
@@ -171,8 +171,10 @@ while not game_over:
     goal = check_goal(game_id, current_airport)
     if goal:
         if goal['goal_id'] == 1:
+            print("welcome to the poker table")
             money = poker.main(money)
         elif goal['goal_id'] == 2:
+            print("welcome to the blackjack table")
             money = blackjack.main(money)
         else:
             money = robber_event(money)
@@ -182,17 +184,28 @@ while not game_over:
               "our money\n to book a hotel room where you can sleep your sorrow away. Better luck next time")
         break
     airports = airports_in_range(current_airport, all_airports)
-    delayed_print(f'choose one of {len(airports)} airports:', 1)
+    print(f'choose one of {len(airports)} airports:')
     if len(airports) > 0:
-        print(f'''airports''')
+        delayed_print('For every 5km it costs 1$ to travel', 3)
+        print('airports')
         for airport in airports:
             ap_distance = calculate_distance(current_airport, airport['ident'])
-            delayed_print(f'''{airport['name']}, icao: {airport['ident']}''', 0.3)
+            delayed_print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''', 0.3)
 
         dest = input('enter destination icao: ')
         selected_distance = calculate_distance(current_airport, dest)
-        update_location(dest, money, game_id)
-        current_airport = dest
+        trip_cost = int(selected_distance * 0.2)  # 20 cents per km
+        if money >= trip_cost:
+            money -= trip_cost
+            delayed_print(f"You spent ${trip_cost} on travel. Remaining money: ${money}", 1)
+            update_location(dest, money, game_id)
+            current_airport = dest
+        else:
+            print("You don't have enough money to pay for the trip!\n choose an other airport.")
+            continue
+
+
+
     # if destination airport is McCarran airport and desired goal is reached, game is won
     if end_money_goal and current_airport == end_airport:
         game_over = True

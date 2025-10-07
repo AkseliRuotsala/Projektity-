@@ -3,7 +3,7 @@ import textwrap
 story = '''
 You have always dreamed of becoming rich, and finally you have found a way to achieve your dream.
 
-Your journeys purpose is to reach Las Vegas, every gamblers dream, the Heaven on earth.
+Your journeys purpose is to reach Las Vegas (ICAO = KLAS), every gamblers dream, the Heaven on earth.
 
 With only 500 bucks in your pocket, you head to the nearest airport.
 
