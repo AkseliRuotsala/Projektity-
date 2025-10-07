@@ -1,20 +1,16 @@
+Sql tiedoston muutokset:
 
-Suositellaan tekemään pari minipeliä lisää tai tehdä yksi "mopuolinen" minipeli
-Matkustamiseen joku "lisä" että silläkin on jokin merkitys
+create table goal
+ (
+     id          int         not null
+         primary key,
+     name        varchar(40) null,
+     probability int         null
+ )
+     charset = latin1;
 
+ insert into goal (id, name, probability)
+ values  (1, 'pikapokeri', 15),
+         (2, 'blackjack', 15),
+		 (3, 'robber', 5);
 
-
-Pelin voitto ehdot.
-    - pelaajalla on yli 50 000€
-
-
-Voittavien käsien kertoimet
-
-pari= 2:1
-kaksi paria
-kolmoset
-suora
-väri
-täyskäsi
-neloset
-kuningasvärisuora
