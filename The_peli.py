@@ -11,9 +11,9 @@ import mysql.connector
 conn = mysql.connector.connect(
     host="localhost",
     port=3306,
-    database="",
-    user="",
-    password="",
+    database="some_database_name",
+    user="root",
+    password="LIppusiima404",
     autocommit=True
 )
 
@@ -58,7 +58,7 @@ def create_game(start_money, p_range, cur_airport, p_name, a_ports):
         cursor = conn.cursor(dictionary=True)
         cursor.execute(sql, (g_id, g_ports[i]['ident'], goal_id))
 
-    # Add end airport
+    # Add end airport (Las Vegas)
     sql = 'INSERT INTO ports (game, airport, goal) VALUES (%s, %s, %s);'
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (g_id, 'KLAS', 0))
@@ -150,7 +150,6 @@ end_airport = 'KLAS'
 
 game_id = create_game(money, player_range, start_airport, player, all_airports)
 
-
 while not game_over:
     # Check losing condition first
     if money < 100:
@@ -173,32 +172,34 @@ while not game_over:
             money = blackjack.main(money)
         else:
             money = robber_event(money)
-        money = round(money, 2)  # <-- keep money to 2 decimals
+        money = round(money, 2)
         player_range = update_player_range(money)
 
-    # List airports in range
-    airports = airports_in_range(current_airport, all_airports, player_range)
-    print(f'\nChoose one of {len(airports)} airports:\n')
-    if len(airports) == 0:
-        print("No airports in range! You are stranded 😢")
-        break
-
+    # List airports
+    print(f'\nNearby airports:')
     delayed_print('For every 5km it costs 1$ to travel\n', 1)
-    print('Airports:')
-    for airport in airports:  # Only show in-range airports
+    for airport in all_airports:
         ap_distance = calculate_distance(current_airport, airport['ident'])
-        delayed_print(f"{GREEN}{airport['name']} (ICAO: {airport['ident']}) — {ap_distance:.0f} km — in range{RESET}", 0.2)
+        if 0 < ap_distance <= player_range:
+            delayed_print(f"{GREEN}{airport['name']} (ICAO: {airport['ident']}) — {ap_distance:.0f} km — in range{RESET}", 0.1)
+        elif ap_distance > player_range:
+            delayed_print(f"{RED}{airport['name']} (ICAO: {airport['ident']}) — {ap_distance:.0f} km — out of range{RESET}", 0.1)
 
-    dest = input('Enter destination ICAO: ').strip().upper()
-    if not any(a['ident'] == dest for a in airports):  # Validate range
-        print("Invalid or out-of-range ICAO code. Try again.")
+    # Choose destination
+    dest = input('\nEnter destination ICAO: ').strip().upper()
+    if not any(a['ident'] == dest for a in all_airports):
+        print("Invalid ICAO code. Try again.")
         continue
 
     selected_distance = calculate_distance(current_airport, dest)
-    trip_cost = round(selected_distance * 0.2, 2)  # 20 cents per km
+    if selected_distance > player_range:
+        print("That airport is out of range! Choose another one.")
+        continue
+
+    trip_cost = round(selected_distance * 0.2, 2)
     if money >= trip_cost:
         money -= trip_cost
-        money = round(money, 2)  # <-- round after subtraction
+        money = round(money, 2)
         player_range = update_player_range(money)
         delayed_print(f"You spent ${trip_cost} on travel. Remaining money: ${money}", 1)
         update_location(dest, player_range, money, game_id)
