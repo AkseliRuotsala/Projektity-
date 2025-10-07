@@ -38,4 +38,4 @@ word_list2 = wrapper.wrap(text=story2)
 
 
 def getStory2():
-    return word_list2
+    return "\n".join(word_list2)
