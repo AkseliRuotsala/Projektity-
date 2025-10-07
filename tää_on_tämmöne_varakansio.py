@@ -142,7 +142,7 @@ where ident = 'KLAS';"""
 storyDialog = input('Do you want to read the background story? (Y/N): ').upper()
 if storyDialog == 'Y':
     for line in story.getStory():
-        delayed_print(line, 1.5)
+        print(line, 1.5)
 
 
 delayed_print('\nWhen you are ready to start, ', 1)
@@ -187,7 +187,7 @@ while not game_over:
         print(f'''airports''')
         for airport in airports:
             ap_distance = calculate_distance(current_airport, airport['ident'])
-            delayed_print(f'''{airport['name']}, icao: {airport['ident']}''', 0.5)
+            delayed_print(f'''{airport['name']}, icao: {airport['ident']}''', 0.3)
 
         dest = input('enter destination icao: ')
         selected_distance = calculate_distance(current_airport, dest)
