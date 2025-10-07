@@ -40,16 +40,6 @@ ORDER BY RAND();"""
     return result
 
 
-def vegas_airport():
-    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
-FROM airport
-where ident = 'KLAS';"""
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
-
-
 def get_goals():
     sql = 'SELECT * FROM goal;'
     cursor = conn.cursor(dictionary=True)
@@ -138,6 +128,16 @@ def robber_event(player_money):
     return player_money
 
 
+def vegas_airport():
+    sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
+FROM airport
+where ident = 'KLAS';"""
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+
 #game starts
 storyDialog = input('Do you want to read the background story? (Y/N): ').upper()
 if storyDialog == 'Y':
@@ -154,7 +154,7 @@ win = False
 money = 500
 end_money_goal = 100000
 
-all_airports = get_airports()
+all_airports = get_airports() + vegas_airport()
 start_airport = all_airports[0]['ident']
 
 current_airport = start_airport
@@ -187,7 +187,7 @@ while not game_over:
         print(f'''airports''')
         for airport in airports:
             ap_distance = calculate_distance(current_airport, airport['ident'])
-            delayed_print(f'''{airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''', 0.5)
+            delayed_print(f'''{airport['name']}, icao: {airport['ident']}''', 0.5)
 
         dest = input('enter destination icao: ')
         selected_distance = calculate_distance(current_airport, dest)
