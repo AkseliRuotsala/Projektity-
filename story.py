@@ -5,7 +5,7 @@ You have always dreamed of becoming rich, and finally you have found a way to ac
 
 Your journeys purpose is to reach Las Vegas (ICAO = KLAS), every gamblers dream, the Heaven on earth.
 
-With only 500 bucks in your pocket, you head to the nearest airport.
+With only 500 bucks in your pocket, you head to the nearest airport with a goal of 100,000$.
 
 Your strengths lie in just two games, blackjack and poker, and those are the only tables you’ll ever play. 
 
