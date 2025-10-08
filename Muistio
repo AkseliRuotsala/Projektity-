@@ -14,3 +14,11 @@ create table goal
          (2, 'blackjack', 15),
 		 (3, 'robber', 5);
 
+
+blackjack eri pelimekanismi lisäyksiä kuten split tai double
+
+väärä icao ei aiheuta uutta "eventtiä"
+
+kerran jo käyty kenttä sulkeutuu
+
+vegasissa oma peli esim. ruletti
